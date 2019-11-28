@@ -2,23 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import backends.terminal as terminal
-
+import copy
+import time
 
 def main():
-	board = terminal.TerminalBoard(board_width=15, board_height=4, header_height=0, left_margin_width=0, right_margin_width=0, footer_height=0)
-	board.print_frame()
+	game = terminal.TerminalBoard(board_width=15, board_height=4, header_height=2, left_margin_width=5, right_margin_width=10, footer_height=2, frame_rate=10)
 	
-	board = terminal.TerminalBoard(board_width=15, board_height=4, header_height=0, left_margin_width=5, right_margin_width=10, footer_height=2)
-	board.print_frame()
-	
-	board = terminal.TerminalBoard(board_width=15, board_height=4, header_height=2, left_margin_width=0, right_margin_width=10, footer_height=2)
-	board.print_frame()
-	
-	board = terminal.TerminalBoard(board_width=15, board_height=4, header_height=2, left_margin_width=5, right_margin_width=0, footer_height=2)
-	board.print_frame()
-	
-	board = terminal.TerminalBoard(board_width=15, board_height=4, header_height=2, left_margin_width=5, right_margin_width=10, footer_height=0)
-	board.print_frame()
-	
-	board = terminal.TerminalBoard(board_width=15, board_height=4, header_height=2, left_margin_width=5, right_margin_width=10, footer_height=2)
-	board.print_frame()
+	board = copy.deepcopy(game.get_board())
+	for x in range(15):
+		tmp_board = copy.deepcopy(board)
+		tmp_board[0:4, x] = "x"
+		game.update_board(tmp_board)
+		time.sleep(0.5)
