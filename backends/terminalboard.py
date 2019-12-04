@@ -2,25 +2,22 @@
 
 import copy
 import numpy
-import threading
-import time
 
 import os_support
+import backends.userinterfacebase as userinterfacebase
 
 
 
 
-class TerminalBoard(object):
+class TerminalBoard(userinterfacebase.UserInterfaceBase):
 
 	dtype = "U1"
 	
 	def __init__(self, board_width, board_height, header_height=0, left_margin_width=0, right_margin_width=0, footer_height=0, frame_rate=10):
 		
-		self._frame_rate = frame_rate
+		super(TerminalBoard, self).__init__(frame_rate)
 		
-		self._thread = threading.Thread(target=self.run)
-		self._thread.daemon = True
-		self._thread.start()
+		os_support.prepare_terminal()
 		
 		print_header = header_height > 0
 		print_left_margin = left_margin_width > 0
@@ -148,11 +145,7 @@ class TerminalBoard(object):
 		self._update = True
 	
 	
-	def update(self):
-		self._update = True
-	
-	
-	def _print_frame(self):
+	def _update_board(self):
 		frame_data = numpy.block([
 				[self._horizontal_bar_top],
 				[numpy.block([
@@ -180,11 +173,4 @@ class TerminalBoard(object):
 		print frame_string
 		
 		self._update = False
-	
-	
-	def run(self):
-		while True:
-			if self._update:
-				self._print_frame()
-			time.sleep(1.0 / self._frame_rate)
 

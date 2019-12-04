@@ -6,3 +6,6 @@ import os
 def clear_terminal():
 	os.system("cls")
 
+def prepare_terminal():
+	pass
+
