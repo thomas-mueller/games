@@ -146,27 +146,27 @@ class TerminalBoard(userinterfacebase.UserInterfaceBase):
 	
 	
 	def _update_board(self):
-		frame_data = numpy.block([
-				[self._horizontal_bar_top],
-				[numpy.block([
+		frame_data = numpy.concatenate((
+				self._horizontal_bar_top,
+				numpy.concatenate((
 						self._vertical_bar_left,
-						numpy.block([
-								[self._header],
-								[self._horizontal_bar_header],
-								[numpy.block([
+						numpy.concatenate((
+								self._header,
+								self._horizontal_bar_header,
+								numpy.concatenate((
 										self._left_margin,
 										self._vertical_bar_left_margin,
 										self._board,
 										self._vertical_bar_right_margin,
 										self._right_margin
-								])],
-								[self._horizontal_bar_footer],
-								[self._footer]
-						]),
+								), axis=1),
+								self._horizontal_bar_footer,
+								self._footer
+						), axis=0),
 						self._vertical_bar_right
-				])],
-				[self._horizontal_bar_bottom]
-		])
+				), axis=1),
+				self._horizontal_bar_bottom
+		), axis=0)
 		frame_string = "\n".join(["".join(line) for line in frame_data])
 	
 		os_support.clear_terminal()
