@@ -145,6 +145,10 @@ class TerminalBoard(userinterfacebase.UserInterfaceBase):
 		self._update = True
 	
 	
+	def update(self):
+		self._update = True
+	
+	
 	def _update_board(self):
 		frame_data = numpy.concatenate((
 				self._horizontal_bar_top,
